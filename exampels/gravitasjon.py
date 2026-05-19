@@ -20,7 +20,7 @@ x = WIDTH // 2 - size // 2
 y = HEIGHT - size - 50
 
 y_velocity = 0
-gravity = 0.6
+gravity = 0.5
 jump_strength = -12
 on_ground = False
 
