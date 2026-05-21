@@ -53,11 +53,11 @@ class World():
             screen.blit(tile[0], tile[1])
 
 world_data = [
-    [0, 1, 1, 1, 1],
-    [0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0],
-    [1, 1, 1, 1, 1]
+    [1, ],
+    [1, ],
+    [1,],
+    [1,],
+  
 ]
 
 world = World(world_data)

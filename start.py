@@ -5,7 +5,7 @@ import sys
 pygame.init()
 
 # Screen settings used for seting up the game windo 
-Width, Height = 640, 640
+Width, Height = 600, 600
 screen =pygame.display.set_mode((Width, Height))
 pygame.display.set_caption("Get the cacke")
 
@@ -53,11 +53,11 @@ class World():
             screen.blit(tile[0], tile[1])
 
 world_data = [
-    [1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1]
+    [1, 1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 0, 1],
+    [1, 1, 1, 1, 1, 1],
 ]
 
 world = World(world_data)
