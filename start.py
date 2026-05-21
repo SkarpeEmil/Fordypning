@@ -4,13 +4,13 @@ import sys
 #Initialize all imported code in pygame modules at once 
 pygame.init()
 
-# Screen settings used for seting up the game windo 
-Width, Height = 600, 600
+# Screen settings used for seting up the game window
+Width, Height = 650, 650
 screen =pygame.display.set_mode((Width, Height))
 pygame.display.set_caption("Get the cacke")
 
 # variable for the grid size
-tile_size = 100
+tile_size = 67
 
 # what i am doing is making the imege is Uploaded 
 player_img = pygame.image.load('player.png').convert_alpha()
@@ -20,7 +20,7 @@ background_img = pygame.image.load('background.png').convert_alpha()
 
 # makes the game into grids witch i can difine  
 def draw_grid():
-      for line in range(0, 6):
+      for line in range(0, 11):
         pygame.draw.line(screen, (255, 255, 255), (0, line * tile_size), (Width, line * tile_size))
         pygame.draw.line(screen, (255, 255, 255), (line * tile_size, 0), (line * tile_size, Height))
 
@@ -34,34 +34,50 @@ class World():
          #loding img for tiles
          dirt_img = pygame.image.load('dirt.png').convert_alpha()
 
-         # draws the bloks in the girid
+         # code that makes the dirt img insaid the grid
          row_count = 0
+
          for row in data:
-             col_count = 0
-             for tile in row:
-                 if tile == 1:
-                     img = pygame.transform.scale(dirt_img, (tile_size, tile_size))
-                     img_rect = img.get_rect()
-                     img_rect.x = col_count * tile_size
-                     img_rect.y = row_count * tile_size
-                     tile = (img, img_rect)
-                     self.tile_list.append(tile)
-                     col_count += 1
-                 row_count += 1
+            col_count = 0
+           
+            for tile in row:
+
+                if tile == 1:
+                    img = pygame.transform.scale(
+                        dirt_img,
+                        (tile_size, tile_size)
+                    )
+
+                    img_rect = img.get_rect()
+
+                    img_rect.x = col_count * tile_size
+                    img_rect.y = row_count * tile_size
+
+                    self.tile_list.append((img, img_rect))
+
+                col_count += 1
+
+            row_count += 1
+
     def draw(self):
         for tile in self.tile_list:
             screen.blit(tile[0], tile[1])
 
 world_data = [
-    [1, 1, 1, 1, 1, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 0, 0, 0, 0, 1],
-    [1, 1, 1, 1, 1, 1],
+     [1, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+     [0, 0, 0, 0, 0, 0, 0, 0, 0, 1]
 ]
-
 world = World(world_data)
 
+#setting for the groubd
+ground_y = Height - 50
 # Clock used for FPS 
 clock = pygame.time.Clock()
 
@@ -71,9 +87,12 @@ Xspeed = 3
 # gravity settings so when you jump you will fall down again
 y_velocity = 0
 gravity = 0.1
-jump_strength = -1  
+jump_strength = -5  
 on_ground = False
+ground_y = Height - 50
 
+ 
+# the code just makes the background img bigger in witdh and hight
 background_img = pygame.transform.scale(background_img,(2400,800))
 
 
@@ -82,7 +101,7 @@ cake = pygame.transform.scale(cake_img,(50,50))
 player = pygame.transform.scale(player_img,(60,60))
 
 
-
+# adds values to y x so if used it will start ther 
 y = 0
 x = 0
 
@@ -102,6 +121,16 @@ while True:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 y_velocity = jump_strength
+                on_ground = False
+                
+    #applays gravity
+    y_velocity += gravity
+    y += y_velocity
+
+    if y + 60 >= ground_y:
+        y = ground_y - 60
+        y_velocity = 0
+        on_ground = True
          
 
     screen.fill((0, 0, 0)) # fill the screen with black color
@@ -112,15 +141,14 @@ while True:
     screen.blit(player,(x , y)) 
 
 # draws the grid and the bloks 
-   # world.draw()
+    world.draw()
     draw_grid()
+
+      # Ground to stand on to stopp the gravity
+    pygame.draw.rect(screen, (0, 255, 0), (0, ground_y, Width, Height - ground_y))
  
   
 
-
- # Apply gravity
-    y_velocity += gravity
-    y += y_velocity
 
 
 
@@ -128,12 +156,10 @@ while True:
     keys = pygame.key.get_pressed()
     if keys[pygame.K_LEFT]:
       x -= Xspeed
+
     if keys[pygame.K_RIGHT]:
        x += Xspeed
-    if keys[pygame.K_UP]:
-       y -= Xspeed
-    if keys[pygame.K_DOWN]:
-       y  += Xspeed
+  
    
    
                 
