@@ -10,3 +10,15 @@ Liste over ting jeg skal gjøre: 10 ting
 -fiks buggs if needed
 - bytte karakter 
 -legetil animations 
+
+new list to do 
+
+make the caracter spawn at the left side botom 
+make so the caracter still kan move 
+remove infinet jumps 
+
+
+maby adds 
+free downloded caracter with animations (sprit animations)
+enimes
+more levels 
