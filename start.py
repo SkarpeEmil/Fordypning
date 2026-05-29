@@ -4,6 +4,14 @@ import sys
 #Initialize all imported code in pygame modules at once 
 pygame.init()
 
+# adds values to y x so if used it will start ther 
+y = 500
+x = 0
+
+# Cake position
+cake_x = 6
+cake_y = 5
+
 # Screen settings used for seting up the game window
 Width, Height = 650, 650
 screen =pygame.display.set_mode((Width, Height))
@@ -11,6 +19,13 @@ pygame.display.set_caption("Get the cacke")
 
 # variable for the grid size
 tile_size = 67
+
+#  Game score
+score_value = 0
+
+#adds a font 
+font = pygame.font.SysFont('Arial', 32)
+
 
 # what i am doing is making the imege is Uploaded 
 player_img = pygame.image.load('player.png').convert_alpha()
@@ -25,8 +40,10 @@ player = pygame.transform.scale(player_img,(60,60))
 
 dirt_img = pygame.transform.scale(dirt_img, (tile_size, tile_size))
 
-
-
+#will make it so i can show the score in game
+def show_score(x, y):
+    text = font.render("Score:" + str(score_value), True, (255, 255, 255))
+    screen.blit(text, (x, y))
 
 
 # makes the game into grids witch i can difine  
@@ -113,10 +130,6 @@ background_img = pygame.transform.scale(background_img,(2400,800))
 
 
 
-# adds values to y x so if used it will start ther 
-y = 0
-x = 0
-
 
 
 
@@ -132,7 +145,7 @@ while True:
             draw_grid()
           
         # Jump keys
-        if event.type == pygame.KEYDOWN:
+        if event.type == pygame.KEYDOWN and on_ground:
             if event.key == pygame.K_SPACE:
                 y_velocity = jump_strength
                 on_ground = False
@@ -142,8 +155,10 @@ while True:
     y_velocity += gravity
     y += y_velocity
 
+   
 
     player_rect = pygame.Rect(x, y, 60, 60)
+    cake_rect = pygame.Rect(6, 5, 50, 50)
 
 
     # makes the dirt img a platform in my game
@@ -185,14 +200,14 @@ while True:
 
   #the code makes the img picture appear on the screen 
     screen.blit(background_img,(-600,0))
-    screen.blit(cake,(6,5))
+    screen.blit(cake, cake_rect)
     screen.blit(player,(x , y))
 
 
 # draws the grid and the bloks 
     world.draw()
 
-   # draw_grid()
+    draw_grid()
 
       # Ground to stand on so you dont fall through the map fllor
     pygame.draw.rect(screen, (0, 255, 0), (0, ground_y, Width, Height - ground_y))
@@ -206,16 +221,15 @@ while True:
 
     if keys[pygame.K_RIGHT]:
        x += Xspeed
-    
 
-  
    
+   #makes it so the scoor value gose up 1 when tuched 
+    if player_rect.colliderect(cake_rect):
+        score_value += 1
    
-                
-    
+   #shows the score 
+    show_score(510, 0)
 
 
-
-        
     pygame.display.flip()
     clock.tick(60)  
